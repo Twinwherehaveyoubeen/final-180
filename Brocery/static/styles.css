@@ -96,4 +96,92 @@
     font-size: 18px;
     color: #4f4f4f;
   }
+
+  #signup-body {
+    background-color: #f5e8d2;
+    font-family: 'Poppins', sans-serif;
+    color: #2b4736;
+  }
   
+  .signup-container {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  #signup-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2b4736;
+  }
+  
+  #signup-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #signup-form label {
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  #signup-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  #signup-button {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #d07a3d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  #signup-button:hover {
+    background-color: #b96228;
+  }
+  
+  .login-link {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .login-link a {
+    color: #d07a3d;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .flash-messages {
+    color: red;
+    margin-top: 10px;
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .logo-image-center {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  #signup-logo {
+    width: 80px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  #signup-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+  }
