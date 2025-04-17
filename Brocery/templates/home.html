@@ -14,9 +14,15 @@
         <img src="{{ url_for('static', filename='images/brocery_logo.png') }}" alt="Brocery Logo" id="brocery-logo">
         <h1 id="logo">BROCERY</h1>
       </div>
+
       <div class="nav-links-right">
-        <a href="/signup" id="login-link">Sign Up</a>
-        <a href="/login" id="login-link">Login</a>
+        {% if 'username' in session %}
+          <span class="navbar-user">Welcome, {{ session['username'] }}!</span>
+          <a href="/logout" id="logout-link">Logout</a>
+        {% else %}
+          <a href="/signup" id="signup-link">Sign Up</a>
+          <a href="/login" id="login-link">Login</a>
+        {% endif %}
         <a href="/cart" id="cart-link">Cart</a>
       </div>
     </div>
