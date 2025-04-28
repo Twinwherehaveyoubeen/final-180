@@ -1,196 +1,189 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f5e8d2;
-    color: #2b4736;
-  }
-  
-  #main-header {
-    background-color: #ffffff;
-    border-bottom: 3px solid #2b4736;
-  }
-  
-  .top-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 30px;
-  }
-  
-  .logo-box {
-    display: flex;
-    align-items: center;
-  }
-  
-  #brocery-logo {
-    width: 50px;
-    height: auto;
-    border-radius: 12px;
-    margin-right: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  }
-  
-  #logo {
-    font-size: 28px;
-    color: #2b4736;
-    letter-spacing: 2px;
-    font-weight: bold;
-    margin-right: auto;
-  }
-  
-  .nav-links-right a {
-    margin-left: 20px;
-    color: #d07a3d;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .nav-links-right a:hover {
-    text-decoration: underline;
-  }
-  
-  #sub-nav {
-    background-color: #d07a3d;
-    padding: 10px 0;
-  }
-  
-  .nav-links {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-  }
-  
-  .nav-links li {
-    margin: 0 20px;
-  }
-  
-  .nav-links a {
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 16px;
-  }
-  
-  .nav-links a:hover {
-    color: #f5e8d2;
-    text-decoration: underline;
-  }
-  
-  #main-content {
-    padding: 40px 30px;
-    text-align: center;
-  }
-  
-  #main-content h2 {
-    font-size: 32px;
-    color: #2b4736;
-    margin-bottom: 15px;
-  }
-  
-  #main-content p {
-    font-size: 18px;
-    color: #4f4f4f;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  #signup-body {
-    background-color: #f5e8d2;
-    font-family: 'Poppins', sans-serif;
-    color: #2b4736;
-  }
-  
-  .signup-container {
-    max-width: 400px;
-    margin: 60px auto;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  #signup-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #2b4736;
-  }
-  
-  #signup-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  #signup-form label {
-    font-weight: 600;
-    margin-top: 10px;
-    margin-bottom: 5px;
-  }
-  
-  #signup-form input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  #signup-button {
-    margin-top: 20px;
-    padding: 12px;
-    background-color: #d07a3d;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  #signup-button:hover {
-    background-color: #b96228;
-  }
-  
-  .login-link {
-    text-align: center;
-    margin-top: 15px;
-  }
-  
-  .login-link a {
-    color: #d07a3d;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .flash-messages {
-    color: red;
-    margin-top: 10px;
-    list-style: none;
-    padding-left: 0;
-  }
+body, #signup-body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5e8d2;
+  color: #2b4736;
+}
 
-  .logo-image-center {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  #signup-logo {
-    width: 80px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  #signup-form select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
-  }
+#main-header {
+  background-color: #ffffff;
+  border-bottom: 3px solid #2b4736;
+}
 
-  .navbar-user {
-    font-weight: bold;
-    margin-right: 15px;
-    color: #2b4736;
-  }
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+}
+
+#brocery-logo {
+  width: 50px;
+  height: auto;
+  border-radius: 12px;
+  margin-right: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#logo {
+  font-size: 28px;
+  color: #2b4736;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.nav-links, .nav-links-right {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.nav-links {
+  justify-content: center;
+}
+
+.nav-links li {
+  margin: 0 20px;
+}
+
+.nav-links a, .nav-links-right a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.nav-links-right a {
+  color: #d07a3d;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.nav-links a:hover, .nav-links-right a:hover {
+  text-decoration: underline;
+  color: #f5e8d2;
+}
+
+#sub-nav {
+  background-color: #d07a3d;
+  padding: 10px 0;
+}
+
+#main-content {
+  padding: 40px 30px;
+  text-align: center;
+}
+
+#main-content h2 {
+  font-size: 32px;
+  color: #2b4736;
+  margin-bottom: 15px;
+}
+
+#main-content p {
+  font-size: 18px;
+  color: #4f4f4f;
+}
+
+.signup-container, .form-container {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#signup-title, .add-title {
+  margin-bottom: 20px;
+  color: #2b4736;
+  font-size: 28px;
+}
+
+#signup-form, .add-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#signup-form label, .add-product-form label {
+  font-weight: 600;
+  text-align: left;
+  margin: 10px 0 5px;
+}
+
+#signup-form input, #signup-form select,
+.add-product-form input, .add-product-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+#signup-button, .button {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #d07a3d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button {
+  background-color: #0046be;
+  border-radius: 30px;
+  padding: 8px 16px;
+}
+
+#signup-button:hover {
+  background-color: #b96228;
+}
+
+.button:hover {
+  background-color: #003bb5;
+}
+
+.flash-messages {
+  color: red;
+  margin-top: 10px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.logo-image-center {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#signup-logo {
+  width: 80px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-user {
+  font-weight: bold;
+  margin-right: 15px;
+  color: #2b4736;
+}
 
 .product-grid {
   display: flex;
@@ -222,36 +215,8 @@
   margin-bottom: 10px;
 }
 
-.product-card h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-.product-card p {
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-.button {
-  background-color: #0046be;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  display: inline-block;
-  margin-top: 10px;
-  text-decoration: none;
-}
-
-.button:hover {
-  background-color: #003399;
-}
-
 .edit-button {
   background-color: #f0ad4e;
-  color: white;
 }
 
 .edit-button:hover {
@@ -259,17 +224,16 @@
 }
 
 .review-link {
-  display: inline-block;
-  margin-top: 10px;
+  display: block;
+  margin-top: 8px;
   color: #d07a3d;
-  font-weight: bold;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .review-link:hover {
   text-decoration: underline;
 }
-
 
 .add-product-btn {
   text-align: center;

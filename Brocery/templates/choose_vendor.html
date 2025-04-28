@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Vendor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body id="signup-body">
+
+<div class="signup-container">
+    <div class="logo-image-center">
+        <img src="{{ url_for('static', filename='images/brocery_logo.png') }}" alt="Brocery Logo" id="signup-logo">
+    </div>
+
+    <h1 id="signup-title">Start Chat with Vendor</h1>
+
+    <form method="POST" id="signup-form">
+        <label for="vendor_id">Vendor ID</label>
+        <input type="text" id="vendor_id" name="vendor_id" placeholder="Enter Vendor ID" required>
+
+        <button type="submit" id="signup-button">Start Chat</button>
+    </form>
+
+    <div class="login-link">
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+</div>
+
+</body>
+</html>

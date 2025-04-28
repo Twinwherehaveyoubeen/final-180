@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/Fab_icon.png') }}">
+    <title>chat Room</title>
+</head>
+<body>
+
+        <h1>Chatting with Vendor ID: {{ vendor_id }}</h1>
+    
+        <ul>
+            {% for msg in messages %}
+                <li><strong>{{ 'You' if msg['Sender_Id'] == session['user_id'] else 'Vendor' }}:</strong> {{ msg['Message_Text'] }}</li>
+            {% endfor %}
+        </ul>
+    
+        <form method="POST">
+            <input type="text" name="message" required placeholder="Type your message...">
+            <button type="submit">Send</button>
+        </form>
+    
+        <form action="{{ url_for('index') }}" method="GET" style="margin-top: 10px;">
+            <button type="submit">Change Vendor</button>
+    
+</body>
+</html>
