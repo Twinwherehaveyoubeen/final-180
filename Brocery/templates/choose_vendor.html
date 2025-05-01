@@ -14,7 +14,7 @@
 
     <h1 id="signup-title">Start Chat with Vendor</h1>
 
-    <form method="POST" id="signup-form">
+    <form method="POST" action="{{ url_for('chat_request') }}" id="signup-form">
         <label for="vendor_id">Vendor ID</label>
         <input type="text" id="vendor_id" name="vendor_id" placeholder="Enter Vendor ID" required>
 

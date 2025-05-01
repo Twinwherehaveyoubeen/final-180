@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ product.Title }} - Brocery</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+  <header>
+    <h1 style="text-align:center;">{{ product.Title }}</h1>
+    <div style="text-align:center;">
+      <a href="{{ url_for('products') }}">← Back to Products</a>
+    </div>
+  </header>
+
+  <main class="product-detail" style="max-width: 900px; margin: auto; padding: 30px;">
+    <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+      <div style="flex: 1;">
+        <img src="{{ url_for('static', filename='images/' + product.Images) }}"
+             alt="{{ product.Title }}"
+             style="width: 100%; max-width: 400px; border-radius: 12px;">
+      </div>
+
+      <div style="flex: 1;">
+        <h2>{{ product.Title }}</h2>
+        <p><strong>Price:</strong> ${{ product.Price }}</p>
+        <p>{{ product.Description }}</p>
+
+        {% if sizes %}
+        <form method="POST" action="/add_to_cart">
+          <input type="hidden" name="product_id" value="{{ product.Product_Id }}">
+
+          <label for="size"><strong>Select Size:</strong></label>
+          <select name="size" required>
+            {% for size in sizes %}
+              <option value="{{ size }}">{{ size }}</option>
+            {% endfor %}
+          </select>
+
+          <label for="quantity"><strong>Quantity:</strong></label>
+          <input type="number" name="quantity" value="1" min="1" style="width: 60px;">
+
+          <button type="submit" class="button" style="margin-top: 10px;">Add to Cart</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+
+    <hr style="margin: 40px 0;">
+
+    <section>
+      <h3>Customer Reviews</h3>
+      {% if reviews %}
+        {% for review in reviews %}
+          <div style="margin-bottom: 20px;">
+            <p><strong>Rating:</strong> {{ review.Rating }} ★</p>
+            <p>{{ review.Review_Text }}</p>
+            <p style="font-size: 0.9em; color: #666;">Posted on {{ review.Created_At }}</p>
+            <hr>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No reviews yet for this product.</p>
+      {% endif %}
+    </section>
+  </main>
+
+</body>
+</html>

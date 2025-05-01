@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vendor Chat Requests</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body id="signup-body">
+<div class="signup-container">
+    <h1 id="signup-title">Pending Chat Requests</h1>
+    {% for r in requests %}
+        <div style="margin-bottom: 20px;">
+            <p>User <strong>{{ r['requester_name'] }}</strong> wants to chat.</p>
+            <form method="POST" action="{{ url_for('accept_chat') }}">
+                <input type="hidden" name="request_id" value="{{ r['id'] }}">
+                <button type="submit" class="button">Accept</button>
+            </form>
+        </div>
+    {% else %}
+        <p>No pending requests.</p>
+    {% endfor %}
+</div>
+</body>
+</html>

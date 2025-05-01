@@ -17,7 +17,7 @@
 
       <div class="nav-links-right">
         {% if 'username' in session %}
-          <span class="navbar-user">Welcome, {{ session['username'] }}!</span>
+          <span class="navbar-user">Welcome, {{ session['username'] }} ({{ session['account_type'] }})</span>
           <a href="/logout" id="logout-link">Logout</a>
         {% else %}
           <a href="/signup" id="signup-link">Sign Up</a>
@@ -37,7 +37,13 @@
 
   <main id="main-content">
     <h2>Welcome to The Brocery Store</h2>
-    <p>Browse our fresh products and enjoy the bro experience.</p>
+    <p>Browse our fresh drip and enjoy the bro experience.</p>
+
+    {% if session.get('username') %}
+      <p style="text-align:center; font-weight: bold; margin-top: 20px;">
+        You are logged in as <strong>{{ session['account_type'] }}</strong>: {{ session['username'] }}
+      </p>
+    {% endif %}
   </main>
 
 </body>

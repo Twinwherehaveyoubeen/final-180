@@ -10,92 +10,38 @@
 
   <header>
     <h1 style="text-align:center; padding: 20px;">Our Products</h1>
+
+    <ul class="nav-links" style="text-align:center;">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+    </ul>
+
     {% if session.get('username') %}
-      <p style="text-align:center;">
-        Welcome, {{ session['username'] }} ({{ session['account_type'] }})
+      <p style="text-align:center; font-weight: bold;">
+        You are logged in as <strong>{{ session['account_type'] }}</strong>: {{ session['username'] }}
       </p>
     {% endif %}
   </header>
 
   <main>
-
     {% if session.get('account_type') in ['Admin', 'Vendor'] %}
       <div class="add-product-btn">
-        <a href="/addproduct" class="button">+ Add New Product</a>
+        <a href="{{ url_for('add_product') }}" class="button">+ Add New Product</a>
       </div>
     {% endif %}
 
     <div class="product-grid">
       {% for product in products %}
         <div class="product-card">
-          <img src="{{ url_for('static', filename='images/' + (product.Image or 'default.png')) }}" alt="{{ product.Title }}">
-          <h3>{{ product.Title }}</h3>
+          <img src="{{ url_for('static', filename='images/' + (product.Images or 'default.png')) }}" alt="{{ product.Title }}">
+          <h3><a href="{{ url_for('product_detail', product_id=product.Product_Id) }}">{{ product.Title }}</a></h3>
           <p>${{ product.Price }}</p>
-
-          {% if session.get('account_type') == 'Customer' %}
-            <button class="button">Add to Cart</button>
-            <a href="/review/{{ product.Product_Id }}" class="review-link">Leave a Review</a>
-          {% endif %}
 
           {% if session.get('account_type') in ['Admin', 'Vendor'] %}
             <a href="/edit_price/{{ product.Product_Id }}" class="button edit-button">Edit Price</a>
           {% endif %}
         </div>
       {% endfor %}
-
-
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='images/Brocery Hoodie.png') }}" alt="Brocery Hoodie">
-        <h3>Brocery Hoodie</h3>
-        <p>$45.00</p>
-        {% if session.get('account_type') == 'Customer' %}
-          <button class="button">Add to Cart</button>
-          <a href="/review/hoodie" class="review-link">Leave a Review</a>
-        {% endif %}
-      </div>
-
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='images/Brocery Shoes.png') }}" alt="Brocery Shoes">
-        <h3>Brocery Shoes</h3>
-        <p>$60.00</p>
-        {% if session.get('account_type') == 'Customer' %}
-          <button class="button">Add to Cart</button>
-          <a href="/review/shoes" class="review-link">Leave a Review</a>
-        {% endif %}
-      </div>
-
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='images/Brocery Pants.png') }}" alt="Brocery Sweatpants">
-        <h3>Brocery Sweatpants</h3>
-        <p>$40.00</p>
-        {% if session.get('account_type') == 'Customer' %}
-          <button class="button">Add to Cart</button>
-          <a href="/review/sweatpants" class="review-link">Leave a Review</a>
-        {% endif %}
-      </div>
-
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='images/Brocery Hat.png') }}" alt="Brocery Hat">
-        <h3>Brocery Hat</h3>
-        <p>$25.00</p>
-        {% if session.get('account_type') == 'Customer' %}
-          <button class="button">Add to Cart</button>
-          <a href="/review/hat" class="review-link">Leave a Review</a>
-        {% endif %}
-      </div>
-
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='images/Brocery Shirt.png') }}" alt="Brocery T-Shirt">
-        <h3>Brocery T-Shirt</h3>
-        <p>$20.00</p>
-        {% if session.get('account_type') == 'Customer' %}
-          <button class="button">Add to Cart</button>
-          <a href="/review/tshirt" class="review-link">Leave a Review</a>
-        {% endif %}
-      </div>
-
     </div>
-
   </main>
 
 </body>
