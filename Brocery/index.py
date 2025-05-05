@@ -14,7 +14,7 @@ conn = mysql.connector.connect(
     host="localhost",
     user="root",
     password="cset155",
-    database="brocery_db"
+    database="brocery"
 )
 cursor = conn.cursor(dictionary=True, buffered=True)
 
@@ -235,6 +235,74 @@ def add_to_cart():
 
     flash("Product added to cart!")
     return redirect(url_for('products'))
+
+@app.route('/cart')
+def view_cart():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    cursor.execute("""
+        SELECT c.*, p.Title, p.Images, p.Price
+        FROM Cart c
+        JOIN Products p ON c.Product_Id = p.Product_Id
+        WHERE c.User_Id = %s
+    """, (user_id,))
+    cart_items = cursor.fetchall()
+
+    total_price = sum(item['Price'] * item['Quantity'] for item in cart_items)
+
+    return render_template('cart.html', cart_items=cart_items, total=total_price)
+
+@app.route('/checkout', methods=['GET', 'POST'])
+def checkout():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    if request.method == 'POST':
+        cursor.execute("SELECT * FROM Cart WHERE User_Id = %s", (user_id,))
+        cart_items = cursor.fetchall()
+
+        if not cart_items:
+            flash("Cart is empty.")
+            return redirect(url_for('cart'))
+
+        cursor.execute("INSERT INTO Orders (User_Id) VALUES (%s)", (user_id,))
+        order_id = cursor.lastrowid
+
+        for item in cart_items:
+            cursor.execute("""
+                INSERT INTO OrderItems (Order_Id, Product_Id, Size, Quantity)
+                VALUES (%s, %s, %s, %s)
+            """, (order_id, item['Product_Id'], item['Size'], item['Quantity']))
+
+        cursor.execute("DELETE FROM Cart WHERE User_Id = %s", (user_id,))
+        conn.commit()
+
+        flash("Order placed successfully!")
+        return redirect(url_for('my_orders'))
+
+    return render_template('checkout.html')
+
+@app.route('/remove_from_cart', methods=['POST'])
+def remove_from_cart():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    product_id = request.form['product_id']
+    size = request.form['size']
+
+    cursor.execute("""
+        DELETE FROM Cart 
+        WHERE User_Id = %s AND Product_Id = %s AND Size = %s
+    """, (user_id, product_id, size))
+    conn.commit()
+
+    flash("Item removed from cart.")
+    return redirect(url_for('view_cart'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

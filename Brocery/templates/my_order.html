@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Orders</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="orders-container">
+    <h2>My Orders</h2>
+    {% if orders %}
+      {% for order in orders %}
+        <div class="order-card">
+          <p><strong>Order #{{ order.Order_Id }}</strong> | {{ order.Created_At }}</p>
+          <p>{{ order.Title }} - Size: {{ order.Size }} - Qty: {{ order.Quantity }}</p>
+          <img src="{{ url_for('static', filename='images/' ~ order.Images) }}" width="100">
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>You have no orders.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
