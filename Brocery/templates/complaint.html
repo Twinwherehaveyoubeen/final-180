@@ -6,6 +6,10 @@
 </head>
 <body>
   <div class="complaint-container">
+    <div style="text-align: right; margin-bottom: 10px;">
+      <a href="{{ url_for('home') }}" class="button">🏠 Home</a>
+    </div>
+
     <h2>Submit a Complaint</h2>
     <form method="POST">
       <label>Title:</label><br>
@@ -16,6 +20,9 @@
 
       <label>Product ID:</label><br>
       <input type="number" name="product_id" required><br><br>
+
+      <label>Order ID:</label><br>
+      <input type="number" name="order_id" required><br><br>
 
       <label>Demand:</label><br>
       <select name="demand" required>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Product</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="form-container">
+    <h2 class="add-title">Edit Product</h2>
+    <form method="POST" enctype="multipart/form-data" class="add-product-form">
+      <label>Title</label>
+      <input type="text" name="title" value="{{ product.Title }}" required>
+
+      <label>Description</label>
+      <textarea name="description">{{ product.Description }}</textarea>
+
+      <label>Price</label>
+      <input type="number" name="price" step="0.01" value="{{ product.Price }}" required>
+
+      <label>Sizes (comma-separated)</label>
+      <input type="text" name="sizes" value="{{ product.Sizes }}">
+
+      <label>Upload New Image (optional)</label>
+      <input type="file" name="image">
+
+      <button type="submit" id="signup-button">Save Changes</button>
+    </form>
+  </div>
+</body>
+</html>

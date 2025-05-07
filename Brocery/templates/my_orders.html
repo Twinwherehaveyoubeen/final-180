@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Orders - Brocery</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+  <div class="orders-container">
+    <div style="text-align: right; margin-bottom: 10px;">
+      <a href="{{ url_for('home') }}" class="button">Home</a>
+    </div>
+
+    <h2>My Orders</h2>
+
+    {% if orders %}
+      {% for order in orders %}
+        <div class="order-card">
+          <p><strong>Order ID:</strong> {{ order.Order_Id }}</p>
+          <p><strong>Status:</strong> {{ order.Status }}</p>
+          <p><strong>Date:</strong> {{ order.Created_At }}</p>
+
+          <table style="width:100%; margin-top: 15px; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Product ID</th>
+                <th style="text-align:left;">Image</th>
+                <th style="text-align:left;">Title</th>
+                <th style="text-align:left;">Size</th>
+                <th style="text-align:left;">Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in order.items_list %}
+                <tr>
+                  <td>{{ item.Product_Id }}</td>
+                  <td><img src="{{ url_for('static', filename='images/' ~ item.Images) }}" width="60"></td>
+                  <td>{{ item.Title }}</td>
+                  <td>{{ item.Size }}</td>
+                  <td>{{ item.Quantity }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No orders found.</p>
+    {% endif %}
+    
+  </div>
+
+</body>
+</html>

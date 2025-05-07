@@ -36,8 +36,8 @@
           <h3><a href="{{ url_for('product_detail', product_id=product.Product_Id) }}">{{ product.Title }}</a></h3>
           <p>${{ product.Price }}</p>
 
-          {% if session.get('account_type') in ['Admin', 'Vendor'] %}
-            <a href="/edit_price/{{ product.Product_Id }}" class="button edit-button">Edit Price</a>
+          {% if session.get('account_type') == 'Admin' or (session.get('account_type') == 'Vendor' and product.Vendor_Id == session.get('user_id')) %}
+            <a href="{{ url_for('edit_product', product_id=product.Product_Id) }}" class="button edit-button">Edit</a>
           {% endif %}
         </div>
       {% endfor %}

@@ -58,25 +58,52 @@ body, #signup-body {
 
 .nav-links a, .nav-links-right a {
   text-decoration: none;
-  color: #ffffff;
   font-weight: 600;
   font-size: 16px;
 }
 
-.nav-links-right a {
-  color: #d07a3d;
-  margin-left: 20px;
-  font-weight: bold;
+.nav-links-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.nav-links a:hover, .nav-links-right a:hover {
-  text-decoration: underline;
-  color: #f5e8d2;
+.account-link,
+.logout-link,
+.cart-link {
+  background-color: transparent;
+  color: #d07a3d;
+  border: 2px solid #d07a3d;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.account-link:hover,
+.logout-link:hover,
+.cart-link:hover {
+  background-color: #d07a3d;
+  color: white;
 }
 
 #sub-nav {
   background-color: #d07a3d;
   padding: 10px 0;
+}
+
+#sub-nav a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 8px 16px;
+  transition: color 0.3s ease;
+}
+
+#sub-nav a:hover {
+  text-decoration: underline;
+  color: #f5e8d2; 
 }
 
 #main-content {
@@ -146,18 +173,8 @@ body, #signup-body {
   display: inline-block;
 }
 
-.button {
-  background-color: #0046be;
-  border-radius: 30px;
-  padding: 8px 16px;
-}
-
 #signup-button:hover {
   background-color: #b96228;
-}
-
-.button:hover {
-  background-color: #003bb5;
 }
 
 .flash-messages {
@@ -177,12 +194,6 @@ body, #signup-body {
   height: auto;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.navbar-user {
-  font-weight: bold;
-  margin-right: 15px;
-  color: #2b4736;
 }
 
 .product-grid {
@@ -247,19 +258,23 @@ body, #signup-body {
   border: 1px solid #ccc;
   border-radius: 8px;
 }
+
 .review-form.hidden {
   display: none;
 }
+
 .review-form .stars {
   display: flex;
   gap: 5px;
   margin-bottom: 8px;
 }
+
 .review-form .star {
   font-size: 22px;
   cursor: pointer;
   color: #ccc;
 }
+
 .review-form .star:hover,
 .review-form .star.active {
   color: gold;
@@ -331,6 +346,67 @@ body, #signup-body {
   background-color: #b96228;
 }
 
+.checkout-button.remove {
+  background-color: #cc0000;
+  color: white;
+  margin-left: 20px;
+}
+
+.checkout-button.remove:hover {
+  background-color: #a80000;
+}
+
+.orders-container, .complaint-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.order-card {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+.button.orders-btn,
+.button.complaint-btn {
+  background-color: #d07a3d;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  margin: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.button.orders-btn:hover,
+.button.complaint-btn:hover {
+  background-color: #b35f29;
+}
+
+.account-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px #b35f29;
+}
+
+.account-box p {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #333;
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -346,12 +422,44 @@ img {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.checkout-button.remove {
-  background-color: #cc0000;
-  color: white;
-  margin-left: 20px;
+.complaint-list-container {
+  max-width: 1000px;
+  margin: auto;
+  background-color: #fff;
+  padding: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
 }
 
-.checkout-button.remove:hover {
-  background-color: #a80000;
+.complaint-list-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2b4736;
+}
+
+.complaint-list-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.complaint-list-container th, 
+.complaint-list-container td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.complaint-list-container th {
+  background-color: #b35f29;
+  color: white;
+}
+
+.complaint-list-container tr:hover {
+  background-color: #f1f1f1;
+}
+
+.no-complaints {
+  text-align: center;
+  font-style: italic;
+  margin-top: 20px;
 }

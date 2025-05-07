@@ -12,19 +12,29 @@
 
     <form method="POST" enctype="multipart/form-data" class="add-product-form">
       <label for="title">Title</label>
-      <input type="text" name="title" required>
+      <input type="text" id="title" name="title" required>
 
       <label for="description">Description</label>
-      <textarea name="description" required></textarea>
+      <textarea id="description" name="description" required></textarea>
 
       <label for="price">Price ($)</label>
-      <input type="number" name="price" step="0.01" required>
+      <input type="number" id="price" name="price" step="0.01" required>
 
       <label for="sizes">Available Sizes (comma-separated, e.g. S,M,L,XL)</label>
-      <input type="text" name="sizes" placeholder="S,M,L,XL" required>
+      <input type="text" id="sizes" name="sizes" placeholder="S,M,L,XL" required>
+
+      <label for="category">Category</label>
+      <select id="category" name="category" required>
+        <option value="" disabled selected>Select a category</option>
+        <option value="Hats">Hats</option>
+        <option value="Shirts">Shirts</option>
+        <option value="Hoodies">Hoodies</option>
+        <option value="Pants">Pants</option>
+        <option value="Shoes">Shoes</option>
+      </select>
 
       <label for="image">Product Image</label>
-      <input type="file" name="image" accept="image/*">
+      <input type="file" id="image" name="image" accept="image/*">
 
       <button type="submit" class="button">Add Product</button>
     </form>

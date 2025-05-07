@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Account</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="account-container">
+    <h2>My Account</h2>
+    <div class="account-box">
+      <p><strong>Username:</strong> {{ user.User_Name }}</p>
+      <p><strong>Email:</strong> {{ user.Email }}</p>
+      <p><strong>Account Type:</strong> {{ user.Account_Type }}</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <a href="/" class="button" style="background-color: #d07a3d; color: white;">Home</a>
+    </div>
+  </div>
+</body>
+</html>

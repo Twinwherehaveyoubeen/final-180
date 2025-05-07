@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Customer Complaints</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="complaint-list-container">
+    <h2>Customer Complaints</h2>
+
+    {% if complaints %}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Product ID</th>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in complaints %}
+            <tr>
+              <td>{{ c.Complaint_Id }}</td>
+              <td>{{ c.User_Name }}</td>
+              <td>{{ c.Title }}</td>
+              <td>{{ c.Description }}</td>
+              <td>{{ c.Product_Id }}</td>
+              <td>{{ c.Order_Id }}</td>
+              <td>{{ c.Status }}</td>
+              <td>{{ c.Date }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No complaints submitted.</p>
+    {% endif %}
+
+    <div style="margin-top: 20px;">
+      <a href="/" class="button">← Home</a>
+    </div>
+  </div>
+</body>
+</html>

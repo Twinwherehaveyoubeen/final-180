@@ -18,12 +18,13 @@
       <div class="nav-links-right">
         {% if 'username' in session %}
           <span class="navbar-user">Welcome, {{ session['username'] }} ({{ session['account_type'] }})</span>
-          <a href="/logout" id="logout-link">Logout</a>
+          <a href="/account" class="account-link">My Account</a>
+          <a href="/logout" class="logout-link">Logout</a>
         {% else %}
-          <a href="/signup" id="signup-link">Sign Up</a>
-          <a href="/login" id="login-link">Login</a>
+          <a href="/signup" class="account-link">Sign Up</a>
+          <a href="/login" class="logout-link">Login</a>
         {% endif %}
-        <a href="/cart" id="cart-link">Cart</a>
+        <a href="/cart" class="cart-link">Cart</a>
       </div>
     </div>
   </header>
@@ -43,6 +44,18 @@
       <p style="text-align:center; font-weight: bold; margin-top: 20px;">
         You are logged in as <strong>{{ session['account_type'] }}</strong>: {{ session['username'] }}
       </p>
+
+      {% if session['account_type'] == 'Customer' %}
+        <div style="text-align:center; margin-top: 20px;">
+          <a href="{{ url_for('my_orders') }}" class="button orders-btn">My Orders</a>
+          <a href="{{ url_for('complaint') }}" class="button complaint-btn">Submit Complaint</a>
+        </div>
+      {% elif session['account_type'] == 'Vendor' or session['account_type'] == 'Admin' %}
+        <div style="text-align:center; margin-top: 20px;">
+          <a href="{{ url_for('customer_orders') }}" class="button orders-btn">View Customer Orders</a>
+          <a href="{{ url_for('complaint_list') }}" class="button complaint-btn">View Complaints</a>
+        </div>
+      {% endif %}
     {% endif %}
   </main>
 

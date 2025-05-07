@@ -14,7 +14,8 @@ conn = mysql.connector.connect(
     host="localhost",
     user="root",
     password="cset155",
-    database="brocery"
+    database="store",
+    ssl_disabled=True
 )
 cursor = conn.cursor(dictionary=True, buffered=True)
 
@@ -78,36 +79,30 @@ def products():
     products = cursor.fetchall()
     return render_template('products.html', products=products)
 
-@app.route('/addproduct', methods=['GET', 'POST'])
+@app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
-
-    if 'account_type' not in session or session['account_type'] not in ['Admin', 'Vendor']:
-        flash("You don't have permission to add products.")
-        return redirect(url_for('products'))
-
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
         price = request.form['price']
         sizes = request.form['sizes']
+        category = request.form['category']
         image = request.files['image']
 
-        if image and image.filename != '':
-            filename = secure_filename(image.filename)
-            image.save(os.path.join('static/images', filename))
-        else:
-            filename = 'default.png'
+        filename = secure_filename(image.filename)
+        image.save(os.path.join('static/images', filename))
 
         cursor.execute("""
-            INSERT INTO Products (Title, Description, Price, Sizes, Images, Vendor_Id)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (title, description, price, sizes, filename, session['user_id']))
+            INSERT INTO Products (Title, Description, Images, Price, Sizes, Category, Vendor_Id)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (title, description, filename, price, sizes, category, session['user_id']))
         conn.commit()
 
-        flash("Product added successfully!")
+        flash('Product added successfully!', 'success')
         return redirect(url_for('products'))
 
     return render_template('add_product.html')
+
 
 @app.route('/choose_vendor', methods=['GET', 'POST'])
 def choose_vendor():
@@ -302,6 +297,191 @@ def remove_from_cart():
 
     flash("Item removed from cart.")
     return redirect(url_for('view_cart'))
+
+@app.route('/myorders')
+def my_orders():
+    if 'user_id' not in session:
+        return redirect('/login') 
+
+    if session.get('account_type') != 'Customer':
+        return redirect('/') 
+
+    user_id = session['user_id']
+    
+   
+    cursor.execute("""
+        SELECT * FROM Orders 
+        WHERE User_Id = %s 
+        ORDER BY Created_At DESC
+    """, (user_id,))
+    orders = cursor.fetchall()
+
+    
+    for order in orders:
+        cursor.execute("""
+            SELECT Products.Product_Id, Products.Title, Products.Images, 
+                   OrderItems.Size, OrderItems.Quantity
+            FROM OrderItems
+            JOIN Products ON OrderItems.Product_Id = Products.Product_Id
+            WHERE Order_Id = %s
+        """, (order['Order_Id'],))
+        order['items_list'] = cursor.fetchall()
+
+    return render_template('my_orders.html', orders=orders)
+
+
+
+@app.route('/vendororders')
+def vendor_orders():
+    if 'user_id' not in session or session['account_type'] != 'vendor':
+        return redirect(url_for('login'))
+
+    vendor_id = session['user_id']
+    cursor.execute("""
+        SELECT o.Order_Id, o.Created_At, oi.*, p.Title, p.Images
+        FROM Orders o
+        JOIN OrderItems oi ON o.Order_Id = oi.Order_Id
+        JOIN Products p ON oi.Product_Id = p.Product_Id
+        WHERE p.Vendor_Id = %s
+        ORDER BY o.Created_At DESC
+    """, (vendor_id,))
+    orders = cursor.fetchall()
+    return render_template('vendor_orders.html', orders=orders)
+
+@app.route('/complaints')
+def complaint_list():
+    if 'username' not in session:
+        return redirect('/login')
+
+    if session.get('account_type') not in ['Vendor', 'Admin']:
+        return "Unauthorized access", 403
+
+    cursor.execute("""
+        SELECT c.Complaint_Id, c.Title, c.Description, c.Status, c.Date,
+               c.Product_Id, c.Order_Id, u.User_Name
+        FROM Complaints c
+        JOIN Users u ON c.User_Id = u.User_Id
+        ORDER BY c.Date DESC
+    """)
+    complaints = cursor.fetchall()
+    return render_template('complaint_list.html', complaints=complaints)
+
+@app.route('/complaint', methods=['GET', 'POST'])
+def complaint():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        order_id = request.form['order_id']       
+        product_id = request.form['product_id']     
+        user_id = session['user_id']
+
+        cursor.execute("""
+            INSERT INTO Complaints (User_Id, Order_Id, Title, Description, Product_Id)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (user_id, order_id, title, description, product_id))
+        conn.commit()
+        flash("Complaint submitted successfully.", "success")
+        return redirect(url_for('products'))
+
+    return render_template('complaint.html')
+
+
+@app.route('/account')
+def account():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    cursor.execute("SELECT * FROM Users WHERE User_Id = %s", (user_id,))
+    user = cursor.fetchone()
+
+    return render_template('account.html', user=user)
+
+@app.route('/edit_product/<int:product_id>', methods=['GET', 'POST'])
+def edit_product(product_id):
+    if 'account_type' not in session or session['account_type'] not in ['Admin', 'Vendor']:
+        flash("You don't have permission to edit products.")
+        return redirect(url_for('products'))
+
+    cursor.execute("SELECT * FROM Products WHERE Product_Id = %s", (product_id,))
+    product = cursor.fetchone()
+
+    if not product:
+        flash("Product not found.")
+        return redirect(url_for('products'))
+
+    if session['account_type'] == 'Vendor' and product['Vendor_Id'] != session['user_id']:
+        flash("You can only edit your own products.")
+        return redirect(url_for('products'))
+
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        price = request.form['price']
+        sizes = request.form['sizes']
+        image = request.files['image']
+
+        if image and image.filename != '':
+            filename = secure_filename(image.filename)
+            image.save(os.path.join('static/images', filename))
+        else:
+            filename = product['Images']  
+
+        cursor.execute("""
+            UPDATE Products
+            SET Title = %s, Description = %s, Price = %s, Sizes = %s, Images = %s
+            WHERE Product_Id = %s
+        """, (title, description, price, sizes, filename, product_id))
+        conn.commit()
+
+        flash("Product updated successfully!")
+        return redirect(url_for('products'))
+
+    return render_template('edit_product.html', product=product)
+
+@app.route('/customer_orders')
+def customer_orders():
+    if 'user_id' not in session or session.get('account_type') not in ['Vendor', 'Admin']:
+        return redirect(url_for('login'))  # Block non-logged-in or non-vendors
+
+    cursor.execute("""
+        SELECT 
+            Orders.Order_Id, Orders.Created_At, Orders.Status, 
+            Users.User_Name, 
+            Products.Title, Products.Images, 
+            OrderItems.Size, OrderItems.Quantity
+        FROM Orders
+        JOIN Users ON Orders.User_Id = Users.User_Id
+        JOIN OrderItems ON Orders.Order_Id = OrderItems.Order_Id
+        JOIN Products ON OrderItems.Product_Id = Products.Product_Id
+        ORDER BY Orders.Order_Id DESC
+    """)
+    results = cursor.fetchall()
+
+    # Group orders by order ID
+    orders = {}
+    for row in results:
+        order_id = row['Order_Id']
+        if order_id not in orders:
+            orders[order_id] = {
+                'Order_Id': order_id,
+                'Created_At': row['Created_At'],
+                'Status': row['Status'],
+                'User_Name': row['User_Name'],
+                'items_list': []
+            }
+        orders[order_id]['items_list'].append({
+            'Title': row['Title'],
+            'Images': row['Images'],
+            'Size': row['Size'],
+            'Quantity': row['Quantity']
+        })
+
+    return render_template('customer_orders.html', orders=orders.values())
+
 
 
 if __name__ == '__main__':

@@ -28,6 +28,7 @@
     </form>
 
     <p class="login-link">Don’t have an account? <a href="/signup">Sign Up</a></p>
+    <p class="login-link">Go back to the home page <a href="{{ url_for('home') }}">Home</a></p>
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}
