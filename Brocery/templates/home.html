@@ -18,21 +18,39 @@
       <div class="nav-links-right">
         {% if 'username' in session %}
           <span class="navbar-user">Welcome, {{ session['username'] }} ({{ session['account_type'] }})</span>
-          <a href="/account" class="account-link">My Account</a>
-          <a href="/logout" class="logout-link">Logout</a>
+          <a href="{{ url_for('account') }}" class="account-link">My Account</a>
+          <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
         {% else %}
-          <a href="/signup" class="account-link">Sign Up</a>
-          <a href="/login" class="logout-link">Login</a>
+          <a href="{{ url_for('signup') }}" class="account-link">Sign Up</a>
+          <a href="{{ url_for('login') }}" class="logout-link">Login</a>
         {% endif %}
-        <a href="/cart" class="cart-link">Cart</a>
+        <a href="{{ url_for('cart') }}" class="cart-link">Cart</a>
       </div>
     </div>
   </header>
 
   <nav id="sub-nav">
     <ul class="nav-links">
-      <li><a href="/products">Products</a></li>
-      <li><a href="/chat">Chat</a></li>
+      <li><a href="{{ url_for('products') }}">Products</a></li>
+      <li><a href="{{ url_for('chat') }}">Chat</a></li>
+
+      {% if session.get('account_type') == 'Customer' %}
+        <li><a href="{{ url_for('my_orders') }}">My Orders</a></li>
+        <li><a href="{{ url_for('complaint') }}">Submit Complaint</a></li>
+        <li><a href="{{ url_for('saved_addresses') }}">My Addresses</a></li>
+
+      {% elif session.get('account_type') == 'Vendor' %}
+        <li><a href="{{ url_for('customer_orders') }}">Customer Orders</a></li>
+        <li><a href="{{ url_for('complaint_list') }}">Complaints</a></li>
+        <li><a href="{{ url_for('add_product') }}">Add Product</a></li>
+
+      {% elif session.get('account_type') == 'Admin' %}
+        <li><a href="{{ url_for('customer_orders') }}">Customer Orders</a></li>
+        <li><a href="{{ url_for('complaint_list') }}">Complaints</a></li>
+        <li><a href="{{ url_for('accounts') }}">User Accounts</a></li>
+        <li><a href="{{ url_for('add_product') }}">Add Product</a></li>
+        <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+      {% endif %}
     </ul>
   </nav>
 
@@ -44,18 +62,6 @@
       <p style="text-align:center; font-weight: bold; margin-top: 20px;">
         You are logged in as <strong>{{ session['account_type'] }}</strong>: {{ session['username'] }}
       </p>
-
-      {% if session['account_type'] == 'Customer' %}
-        <div style="text-align:center; margin-top: 20px;">
-          <a href="{{ url_for('my_orders') }}" class="button orders-btn">My Orders</a>
-          <a href="{{ url_for('complaint') }}" class="button complaint-btn">Submit Complaint</a>
-        </div>
-      {% elif session['account_type'] == 'Vendor' or session['account_type'] == 'Admin' %}
-        <div style="text-align:center; margin-top: 20px;">
-          <a href="{{ url_for('customer_orders') }}" class="button orders-btn">View Customer Orders</a>
-          <a href="{{ url_for('complaint_list') }}" class="button complaint-btn">View Complaints</a>
-        </div>
-      {% endif %}
     {% endif %}
   </main>
 

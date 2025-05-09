@@ -1,15 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Checkout</title>
+  <meta charset="UTF-8">
+  <title>Checkout - Brocery</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+
   <div class="checkout-container">
     <h2>Checkout</h2>
-    <form method="POST">
+
+    <form method="POST" class="add-product-form">
+      <label for="card_number">Card Number</label>
+      <input type="text" name="card_number" placeholder="1234 5678 9012 3456" required>
+
+      <label for="expiry">Expiry Date (MM/YY)</label>
+      <input type="text" name="expiry" placeholder="MM/YY" required>
+
+      <label for="cvv">CVV</label>
+      <input type="text" name="cvv" placeholder="123" required>
+
+      <label for="home_address">Shipping Address</label>
+      <input type="text" name="home_address" placeholder="123 Brocery Lane" required>
+
       <button type="submit" class="checkout-button">Place Order</button>
     </form>
+
+    <div style="margin-top: 20px;">
+      <a href="{{ url_for('home') }}" class="button">← Back to Home</a>
+    </div>
   </div>
+
 </body>
 </html>

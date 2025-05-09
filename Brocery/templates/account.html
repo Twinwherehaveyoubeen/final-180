@@ -12,10 +12,15 @@
       <p><strong>Username:</strong> {{ user.User_Name }}</p>
       <p><strong>Email:</strong> {{ user.Email }}</p>
       <p><strong>Account Type:</strong> {{ user.Account_Type }}</p>
+      {% if user.Address %}
+        <p><strong>Shipping Address:</strong> {{ user.Address }}</p>
+      {% else %}
+        <p><strong>Shipping Address:</strong> Not saved yet.</p>
+      {% endif %}
     </div>
 
-    <div style="text-align: center; margin-top: 20px;">
-      <a href="/" class="button" style="background-color: #d07a3d; color: white;">Home</a>
+    <div style="margin-top: 20px;">
+      <a href="{{ url_for('home') }}" class="button">← Back to Home</a>
     </div>
   </div>
 </body>

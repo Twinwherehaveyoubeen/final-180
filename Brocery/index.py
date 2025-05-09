@@ -50,20 +50,20 @@ def signup():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password_input = request.form['password']
+        password = request.form['password']
 
         cursor.execute("SELECT * FROM Users WHERE User_Name = %s", (username,))
         user = cursor.fetchone()
 
-        if user and check_password_hash(user['Password'], password_input):
+        if user and check_password_hash(user['Password'], password):
             session['username'] = user['User_Name']
             session['account_type'] = user['Account_Type']
             session['user_id'] = user['User_Id']
-
-            flash("Login successful!")
+            flash('Login successful!', 'success')
             return redirect(url_for('home'))
         else:
-            flash("Invalid username or password.")
+            flash('Invalid username or password', 'error')
+            return redirect(url_for('login'))
 
     return render_template('login.html')
 
@@ -232,7 +232,7 @@ def add_to_cart():
     return redirect(url_for('products'))
 
 @app.route('/cart')
-def view_cart():
+def cart():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
@@ -254,29 +254,19 @@ def checkout():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    user_id = session['user_id']
     if request.method == 'POST':
-        cursor.execute("SELECT * FROM Cart WHERE User_Id = %s", (user_id,))
-        cart_items = cursor.fetchall()
+        card_number = request.form['card_number']
+        expiry = request.form['expiry']
+        cvv = request.form['cvv']
+        home_address = request.form['home_address']
 
-        if not cart_items:
-            flash("Cart is empty.")
-            return redirect(url_for('cart'))
+        user_id = session['user_id']
 
-        cursor.execute("INSERT INTO Orders (User_Id) VALUES (%s)", (user_id,))
-        order_id = cursor.lastrowid
-
-        for item in cart_items:
-            cursor.execute("""
-                INSERT INTO OrderItems (Order_Id, Product_Id, Size, Quantity)
-                VALUES (%s, %s, %s, %s)
-            """, (order_id, item['Product_Id'], item['Size'], item['Quantity']))
-
-        cursor.execute("DELETE FROM Cart WHERE User_Id = %s", (user_id,))
+        cursor.execute("UPDATE Users SET Address = %s WHERE User_Id = %s", (home_address, user_id))
         conn.commit()
 
-        flash("Order placed successfully!")
-        return redirect(url_for('my_orders'))
+        flash('Order placed and address saved!', 'success')
+        return redirect(url_for('home'))
 
     return render_template('checkout.html')
 
@@ -388,7 +378,6 @@ def complaint():
 
     return render_template('complaint.html')
 
-
 @app.route('/account')
 def account():
     if 'user_id' not in session:
@@ -397,8 +386,16 @@ def account():
     user_id = session['user_id']
     cursor.execute("SELECT * FROM Users WHERE User_Id = %s", (user_id,))
     user = cursor.fetchone()
-
     return render_template('account.html', user=user)
+
+@app.route('/accounts')
+def accounts():
+    if 'user_id' not in session or session['account_type'] != 'Admin':
+        return redirect(url_for('login'))
+
+    cursor.execute("SELECT * FROM Users")
+    users = cursor.fetchall()
+    return render_template('accounts.html', users=users)
 
 @app.route('/edit_product/<int:product_id>', methods=['GET', 'POST'])
 def edit_product(product_id):
@@ -461,7 +458,6 @@ def customer_orders():
     """)
     results = cursor.fetchall()
 
-    # Group orders by order ID
     orders = {}
     for row in results:
         order_id = row['Order_Id']
@@ -482,7 +478,54 @@ def customer_orders():
 
     return render_template('customer_orders.html', orders=orders.values())
 
+@app.route('/admin')
+def admin_dashboard():
+    if 'username' not in session or session['account_type'] != 'Admin':
+        return redirect(url_for('login'))  
+    return render_template('admin_dashboard.html')
+
+@app.route('/saved_addresses')
+def saved_addresses():
+    if 'username' not in session or session['account_type'] != 'Customer':
+        return redirect(url_for('login'))
+
+    cursor.execute("SELECT * FROM Addresses WHERE User_Id = %s", (session['user_id'],))
+    addresses = cursor.fetchall()
+    return render_template('saved_addresses.html', addresses=addresses)
+
+@app.route('/review/<int:product_id>', methods=['POST'])
+def submit_review(product_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    rating = int(request.form['rating'])
+    review_text = request.form['review_text']
+    user_id = session['user_id']
+
+    cursor.execute("""
+        INSERT INTO Reviews (Product_Id, User_Id, Rating, Review_Text)
+        VALUES (%s, %s, %s, %s)
+    """, (product_id, user_id, rating, review_text))
+    conn.commit()
+
+    return redirect(url_for('product_detail', product_id=product_id))
+
+@app.route('/delete_product/<int:product_id>', methods=['POST'])
+def delete_product(product_id):
+    if 'user_id' not in session or session['account_type'] not in ['Admin', 'Vendor']:
+        return redirect(url_for('login'))
+
+    if session['account_type'] == 'Vendor':
+        cursor.execute("DELETE FROM Products WHERE Product_Id = %s AND Vendor_Id = %s", (product_id, session['user_id']))
+    else:
+        cursor.execute("DELETE FROM Products WHERE Product_Id = %s", (product_id,))
+    
+    conn.commit()
+    flash('Product deleted successfully.', 'success')
+    return redirect(url_for('products'))
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
