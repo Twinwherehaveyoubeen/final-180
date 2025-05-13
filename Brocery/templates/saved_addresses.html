@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Saved Addresses - Brocery</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="account-container">
+    <h2 style="text-align:center; margin-bottom: 20px;">My Saved Addresses</h2>
+
+    {% if addresses %}
+      <table style="width:100%; margin-bottom: 30px;">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Address</th>
+            <th>Default</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in addresses %}
+          <tr>
+            <td>{{ a.Type }}</td>
+            <td>{{ a.Address }}</td>
+            <td>{% if a.Is_Default %}✔{% endif %}</td>
+            <td>
+              <form action="{{ url_for('set_default_address') }}" method="POST" style="display:inline;">
+                <input type="hidden" name="address_id" value="{{ a.Address_Id }}">
+                <button type="submit" class="button">Make Default</button>
+              </form>
+              <form action="{{ url_for('delete_address') }}" method="POST" style="display:inline;">
+                <input type="hidden" name="address_id" value="{{ a.Address_Id }}">
+                <button type="submit" class="checkout-button remove">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No saved addresses yet.</p>
+    {% endif %}
+
+    <h3 style="margin-top: 30px;">Add New Address</h3>
+    <form action="{{ url_for('add_address') }}" method="POST" class="add-product-form">
+      <label for="type">Type (Home / Office)</label>
+      <select name="type" required>
+        <option value="Home">Home</option>
+        <option value="Office">Office</option>
+      </select>
+
+      <label for="address">Full Address</label>
+      <textarea name="address" required></textarea>
+
+      <button type="submit" class="button">Add Address</button>
+    </form>
+
+    <div style="text-align:center; margin-top: 30px;">
+      <a href="/" class="button">← Home</a>
+    </div>
+  </div>
+</body>
+</html>

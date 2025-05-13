@@ -35,7 +35,10 @@
               {% for item in order.items_list %}
                 <tr>
                   <td>{{ item.Product_Id }}</td>
-                  <td><img src="{{ url_for('static', filename='images/' ~ item.Images) }}" width="60"></td>
+                  <td>
+                    <img src="{{ url_for('static', filename='images/' + item.Images) }}" width="60" alt="Product Image">
+                
+                  </td>
                   <td>{{ item.Title }}</td>
                   <td>{{ item.Size }}</td>
                   <td>{{ item.Quantity }}</td>

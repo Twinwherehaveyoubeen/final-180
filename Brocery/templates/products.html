@@ -11,9 +11,9 @@
   <header>
     <h1 style="text-align:center; padding: 20px;">Our Products</h1>
 
-    <ul class="nav-links" style="text-align:center;">
-      <li><a href="{{ url_for('home') }}">Home</a></li>
-    </ul>
+    <div style="text-align:center; margin-bottom: 20px;">
+      <a href="{{ url_for('home') }}" class="button" style="text-decoration: none;">← Back to Home</a>
+    </div>
 
     {% if session.get('username') %}
       <p style="text-align:center; font-weight: bold;">
@@ -22,12 +22,25 @@
     {% endif %}
   </header>
 
-  <main>
+  <main style="max-width: 1100px; margin: auto;">
+
     {% if session.get('account_type') in ['Admin', 'Vendor'] %}
-      <div class="add-product-btn">
+      <div class="add-product-btn" style="text-align:center; margin-bottom: 20px;">
         <a href="{{ url_for('add_product') }}" class="button">+ Add New Product</a>
       </div>
     {% endif %}
+
+  
+    <form method="GET" action="{{ url_for('products') }}" style="text-align:center; margin-bottom: 30px;">
+      <label for="category"><strong>Filter by Category:</strong></label>
+      <select name="category" id="category" onchange="this.form.submit()" class="button" style="margin-left: 10px;">
+        <option value="">All</option>
+        <option value="Hats" {% if request.args.get('category') == 'Hats' %}selected{% endif %}>Hats</option>
+        <option value="Hoodies" {% if request.args.get('category') == 'Hoodies' %}selected{% endif %}>Hoodies</option>
+        <option value="Shirts" {% if request.args.get('category') == 'Shirts' %}selected{% endif %}>Shirts</option>
+        <option value="Pants" {% if request.args.get('category') == 'Pants' %}selected{% endif %}>Pants</option>
+      </select>
+    </form>
 
     <div class="product-grid">
       {% for product in products %}
@@ -38,13 +51,12 @@
 
           {% if session.get('account_type') == 'Admin' or (session.get('account_type') == 'Vendor' and product.Vendor_Id == session.get('user_id')) %}
             <a href="{{ url_for('edit_product', product_id=product.Product_Id) }}" class="button edit-button">Edit</a>
-            <form action="{{ url_for('delete_product', product_id=product.Product_Id) }}" method="POST" style="display:inline;">
-              <button type="submit" class="button delete-button" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
-            </form>
+            <a href="{{ url_for('delete_product', product_id=product.Product_Id) }}" class="button delete-button" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
           {% endif %}
         </div>
       {% endfor %}
     </div>
+    
   </main>
 
 </body>

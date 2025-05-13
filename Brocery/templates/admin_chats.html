@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Chats - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>All Conversations</h1>
+    <div class="chat-container">
+        {% for message in messages %}
+            <div class="chat-message">
+                <strong>{{ message['Sender_Name'] }}</strong> to <strong>{{ message['Receiver_Name'] }}</strong>: 
+                {{ message['Message_Text'] }} 
+                <em>({{ message['Timestamp'] }})</em>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

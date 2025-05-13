@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="chat-box">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h2 style="color: #2b4736;">
+        Chat with 
+        {% if messages %}
+          {{ messages[0]['Receiver_Name'] if messages[0]['Sender_Name'] == session['username'] else messages[0]['Sender_Name'] }}
+        {% else %}
+          User
+        {% endif %}
+      </h2>
+      <a href="{{ url_for('home') }}" class="button" style="text-decoration: none;">Home</a>
+    </div>
+
+    <div class="message-list">
+      {% for message in messages %}
+        <div class="message-item {% if message['Sender_Name'] == session['username'] %}sender{% else %}receiver{% endif %}">
+          <strong>{{ message['Sender_Name'] }}</strong> to <strong>{{ message['Receiver_Name'] }}</strong>:<br>
+          {{ message['Content'] }}<br>
+          <em style="font-size: 12px;">{{ message['Sent_At'] }}</em>
+        </div>
+      {% endfor %}
+    </div>
+
+    <form method="POST">
+      <textarea name="message" placeholder="Type your message here..." rows="3" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</body>
+</html>

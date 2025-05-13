@@ -463,3 +463,211 @@ img {
   font-style: italic;
   margin-top: 20px;
 }
+.chat-box {
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.message-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.message-item {
+  margin-bottom: 12px;
+}
+
+.message-item strong {
+  color: #333;
+}
+
+.vendor-choose-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background-color: #f5e8d2;
+}
+
+.vendor-choose-box {
+  background-color: #ffffff;
+  padding: 35px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(208, 122, 61, 0.15);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  color: #2b4736;
+}
+
+.vendor-choose-box h2 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #b35f29;
+}
+
+.vendor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.vendor-form select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: 'Poppins', sans-serif;
+}
+
+.vendor-form button {
+  padding: 12px;
+  background-color: #d07a3d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.vendor-form button:hover {
+  background-color: #b35f29;
+}
+
+
+.chat-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.chat-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2b4736;
+  margin-bottom: 20px;
+}
+
+.chat-thread {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background: #f9f9f9;
+}
+
+.message {
+  padding: 6px 0;
+}
+
+.message strong {
+  color: #333;
+}
+
+form {
+  margin-top: 10px;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin-top: 8px;
+  padding: 8px 16px;
+  background-color: #d07a3d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #b35f29;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+  padding: 0 20px;
+}
+
+.product-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.product-card h3 {
+  font-size: 1.1rem;
+  margin: 8px 0;
+  color: #d07a3d;
+}
+
+.product-card p {
+  font-weight: bold;
+  color: #444;
+}
+
+.product-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.button {
+  padding: 8px 14px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  background-color: #d07a3d;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #b35f29;
+}
+
+.edit-button {
+  background-color: #007bff;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.delete-button:hover {
+  background-color: #a71d2a;
+}

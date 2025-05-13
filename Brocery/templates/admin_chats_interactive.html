@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin View - All Chats</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">Admin Chat Monitor & Respond</div>
+    {% for thread in chat_threads %}
+      <div class="chat-thread">
+        <div><strong>Conversation:</strong> {{ thread.sender_name }} ↔ {{ thread.receiver_name }}</div>
+        <div>
+          {% for msg in thread.messages %}
+            <div class="message">
+              <strong>{{ msg.Sender_Name }}</strong>: {{ msg.Content }}
+              <em style="font-size: 12px;">({{ msg.Sent_At }})</em>
+            </div>
+          {% endfor %}
+        </div>
+        <form method="POST" action="{{ url_for('admin_send_message') }}">
+          <input type="hidden" name="sender_id" value="{{ admin_id }}">
+          <input type="hidden" name="receiver_id" value="{{ thread.sender_id if thread.sender_id != admin_id else thread.receiver_id }}">
+          <textarea name="message" placeholder="Reply as Admin..." required></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

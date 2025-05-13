@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vendor Chats</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="orders-container">
+    <h2>Customer Chats</h2>
+    <ul>
+      {% for customer in customers %}
+        <li style="margin-bottom: 10px;">
+          <a href="{{ url_for('chat_with_vendor', receiver_id=customer.Sender_Id) }}" class="button">
+            Chat with {{ customer.User_Name }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

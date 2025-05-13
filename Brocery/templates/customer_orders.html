@@ -8,31 +8,44 @@
 <body>
 
   <div class="orders-container">
-    <h2>Customer Orders</h2>
+    <h2 style="text-align: center; margin: 30px 0;">Customer Orders</h2>
 
     {% for order in orders %}
-      <div class="order-card">
+      <div class="order-card" style="border: 1px solid #ccc; padding: 20px; margin-bottom: 30px; border-radius: 12px; background-color: #fff;">
         <p><strong>Order ID:</strong> {{ order.Order_Id }}</p>
         <p><strong>Customer:</strong> {{ order.User_Name }}</p>
-        <p><strong>Status:</strong> {{ order.Status }}</p>
         <p><strong>Date:</strong> {{ order.Created_At }}</p>
 
-        <table style="width:100%; margin-top: 15px; border-collapse: collapse;">
+        <form action="{{ url_for('update_order_status') }}" method="POST" class="status-form" style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center;">
+          <input type="hidden" name="order_id" value="{{ order.Order_Id }}">
+          <label for="status"><strong>Status:</strong></label>
+          <select name="status" class="dropdown" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #aaa;">
+            <option value="Pending" {% if order.Status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Shipped" {% if order.Status == 'Shipped' %}selected{% endif %}>Shipped</option>
+            <option value="Delivered" {% if order.Status == 'Delivered' %}selected{% endif %}>Delivered</option>
+            <option value="Cancelled" {% if order.Status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+          </select>
+          <button type="submit" class="button">Update</button>
+        </form>
+
+        <table style="width: 100%; border-collapse: collapse;">
           <thead>
-            <tr>
-              <th>Product</th>
-              <th>Image</th>
-              <th>Size</th>
-              <th>Quantity</th>
+            <tr style="background-color: #f5f5f5;">
+              <th style="padding: 10px;">Product</th>
+              <th style="padding: 10px;">Image</th>
+              <th style="padding: 10px;">Size</th>
+              <th style="padding: 10px;">Quantity</th>
             </tr>
           </thead>
           <tbody>
             {% for item in order.items_list %}
               <tr>
-                <td>{{ item.Title }}</td>
-                <td><img src="{{ url_for('static', filename='images/' ~ item.Images) }}" width="60"></td>
-                <td>{{ item.Size }}</td>
-                <td>{{ item.Quantity }}</td>
+                <td style="padding: 10px;">{{ item.Title }}</td>
+                <td style="padding: 10px;">
+                  <img src="{{ url_for('static', filename='images/' ~ item.Images) }}" width="60" alt="Product Image" style="border-radius: 6px;">
+                </td>
+                <td style="padding: 10px;">{{ item.Size }}</td>
+                <td style="padding: 10px;">{{ item.Quantity }}</td>
               </tr>
             {% endfor %}
           </tbody>

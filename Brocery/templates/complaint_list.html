@@ -5,44 +5,57 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-  <div class="complaint-list-container">
-    <h2>Customer Complaints</h2>
+  <div class="complaint-list-container" style="padding: 20px;">
+    <h2 style="text-align: center; margin-bottom: 30px;">Customer Complaints</h2>
 
     {% if complaints %}
-      <table>
-        <thead>
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead style="background-color: #f2f2f2;">
           <tr>
-            <th>ID</th>
-            <th>Customer</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Product ID</th>
-            <th>Order ID</th>
-            <th>Status</th>
-            <th>Date</th>
+            <th style="padding: 10px;">ID</th>
+            <th style="padding: 10px;">Customer</th>
+            <th style="padding: 10px;">Title</th>
+            <th style="padding: 10px;">Description</th>
+            <th style="padding: 10px;">Product ID</th>
+            <th style="padding: 10px;">Order ID</th>
+            <th style="padding: 10px;">Status</th>
+            <th style="padding: 10px;">Update</th>
+            <th style="padding: 10px;">Date</th>
           </tr>
         </thead>
         <tbody>
           {% for c in complaints %}
             <tr>
-              <td>{{ c.Complaint_Id }}</td>
-              <td>{{ c.User_Name }}</td>
-              <td>{{ c.Title }}</td>
-              <td>{{ c.Description }}</td>
-              <td>{{ c.Product_Id }}</td>
-              <td>{{ c.Order_Id }}</td>
-              <td>{{ c.Status }}</td>
-              <td>{{ c.Date }}</td>
+              <td style="padding: 10px;">{{ c.Complaint_Id }}</td>
+              <td style="padding: 10px;">{{ c.User_Name }}</td>
+              <td style="padding: 10px;">{{ c.Title }}</td>
+              <td style="padding: 10px;">{{ c.Description }}</td>
+              <td style="padding: 10px;">{{ c.Product_Id }}</td>
+              <td style="padding: 10px;">{{ c.Order_Id }}</td>
+              <td style="padding: 10px;">
+                <form action="{{ url_for('update_complaint_status') }}" method="POST" style="display: flex; gap: 10px;">
+                  <input type="hidden" name="complaint_id" value="{{ c.Complaint_Id }}">
+                  <select name="status" style="padding: 5px 10px; border-radius: 6px; border: 1px solid #999;">
+                    <option value="Pending" {% if c.Status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Reviewed" {% if c.Status == 'Reviewed' %}selected{% endif %}>Reviewed</option>
+                    <option value="Resolved" {% if c.Status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                  </select>
+              </td>
+              <td style="padding: 10px;">
+                  <button type="submit" class="button">Save</button>
+                </form>
+              </td>
+              <td style="padding: 10px;">{{ c.Date }}</td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
     {% else %}
-      <p>No complaints submitted.</p>
+      <p style="text-align: center;">No complaints submitted.</p>
     {% endif %}
 
-    <div style="margin-top: 20px;">
-      <a href="/" class="button">← Home</a>
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="{{ url_for('home') }}" class="button">← Home</a>
     </div>
   </div>
 </body>

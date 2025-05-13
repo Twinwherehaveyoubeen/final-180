@@ -25,6 +25,7 @@
       <div style="flex: 1;">
         <h2>{{ product.Title }}</h2>
         <p><strong>Price:</strong> ${{ product.Price }}</p>
+        <p><strong>Vendor:</strong> {{ product.User_Name }}</p>
         <p>{{ product.Description }}</p>
 
         {% if sizes %}

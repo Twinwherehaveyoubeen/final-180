@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Choose Vendor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <meta charset="UTF-8">
+  <title>Choose Vendor - Brocery</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body id="signup-body">
+<body>
 
-<div class="signup-container">
-    <div class="logo-image-center">
-        <img src="{{ url_for('static', filename='images/brocery_logo.png') }}" alt="Brocery Logo" id="signup-logo">
+  <div class="vendor-choose-container">
+    <div class="vendor-choose-box">
+      <h2 style="color:#2b4736; margin-bottom: 20px;">Start a Chat with a Vendor or Admin</h2>
+      <form method="POST" class="vendor-form">
+        <label for="vendor_id" style="font-weight:bold;">Choose a user to message:</label>
+        <select name="vendor_id" id="vendor_id">
+          {% for vendor in vendors %}
+            <option value="{{ vendor.User_Id }}">{{ vendor.User_Name }}</option>
+          {% endfor %}
+          {% if admin_id %}
+            <option value="{{ admin_id }}">Admin</option>
+          {% endif %}
+        </select>
+        <button type="submit" class="button" style="margin-top: 15px;">Start Chat</button>
+      </form>
     </div>
-
-    <h1 id="signup-title">Start Chat with Vendor</h1>
-
-    <form method="POST" action="{{ url_for('chat_request') }}" id="signup-form">
-        <label for="vendor_id">Vendor ID</label>
-        <input type="text" id="vendor_id" name="vendor_id" placeholder="Enter Vendor ID" required>
-
-        <button type="submit" id="signup-button">Start Chat</button>
-    </form>
-
-    <div class="login-link">
-        <a href="{{ url_for('home') }}">Back to Home</a>
-    </div>
-</div>
+  </div>
 
 </body>
 </html>
